@@ -23,7 +23,7 @@
                 border: 2px solid #000 !important;
                 box-shadow: none !important;
                 margin: 0 auto !important;
-                padding: 1.25rem !important;
+                padding: 1.5rem !important;
                 max-width: 440px !important;
                 width: 440px !important;
                 height: auto !important;
@@ -37,7 +37,7 @@
             color: #71717a;
             font-family: monospace;
             letter-spacing: 1px;
-            font-size: 13px;
+            font-size: 15px;
         }
     </style>
 </head>
@@ -176,7 +176,7 @@
             </div>
         </section>
 
-        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Vertical Alta Legibilidad) -->
+        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Vertical Alta Legibilidad y Letras Grandes) -->
         <section class="lg:col-span-7 flex justify-center items-start">
             <div class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[440px] w-full flex flex-col justify-between text-black relative shadow-md">
                 
@@ -199,33 +199,33 @@
                     </div>
                 </div>
 
-                <!-- Datos de Destinatario (Letras Extra Grandes) -->
-                <div class="space-y-3 flex-grow">
+                <!-- Datos de Destinatario (Letras Extra Grandes - Optimizadas para Mensajeros) -->
+                <div class="space-y-4 flex-grow">
                     <div class="flex items-center gap-1 border-b border-black pb-1 mb-2.5">
                         <i data-lucide="user" class="w-4 h-4 shrink-0"></i>
                         <span class="text-[10px] font-black uppercase tracking-wider">Destinatario (Recibe)</span>
                     </div>
                     
-                    <div class="space-y-3">
+                    <div class="space-y-3.5">
                         <div>
-                            <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Nombre Completo:</span>
-                            <h4 class="text-base font-black uppercase leading-tight text-zinc-950" id="previewDestName">........................................</h4>
+                            <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Nombre Completo:</span>
+                            <h4 class="text-xl font-black uppercase leading-none text-zinc-950" id="previewDestName">........................................</h4>
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-4 border-t border-zinc-200 pt-2">
+                        <div class="grid grid-cols-2 gap-4 border-t border-zinc-300 pt-2.5">
                             <div>
-                                <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Teléfono:</span>
-                                <span id="previewDestPhone" class="font-mono text-xs font-black text-zinc-950">......................</span>
+                                <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Teléfono:</span>
+                                <span id="previewDestPhone" class="font-mono text-sm font-black text-zinc-950">......................</span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Código Garita:</span>
-                                <span id="previewDestCode" class="font-mono text-xs font-black text-zinc-950">......................</span>
+                                <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Código Garita:</span>
+                                <span id="previewDestCode" class="font-mono text-sm font-black text-zinc-950">......................</span>
                             </div>
                         </div>
 
-                        <div class="border-t border-zinc-200 pt-2">
-                            <span class="font-black text-[9px] uppercase block text-zinc-500 tracking-wide">Dirección de Entrega:</span>
-                            <span id="previewDestAddress" class="font-bold text-xs block leading-relaxed break-words text-zinc-950">..............................................................................</span>
+                        <div class="border-t border-zinc-300 pt-2.5">
+                            <span class="font-black text-[10px] uppercase block text-zinc-500 tracking-wide">Dirección de Entrega:</span>
+                            <span id="previewDestAddress" class="font-bold text-sm block leading-relaxed break-words text-zinc-950">..............................................................................</span>
                         </div>
                     </div>
 
@@ -259,16 +259,16 @@
                         
                         <!-- Columna Izquierda: Instrucciones & Monto COD (Ocupa 8 de 12 columnas) -->
                         <div class="col-span-8 flex flex-col justify-between space-y-2">
-                            <!-- Pago Contra Entrega (COD) -->
-                            <div id="codContainer" class="border border-black bg-zinc-50 p-2 flex flex-col justify-center items-center h-[55px]">
+                            <!-- Pago Contra Entrega (COD) - Letra de alta visibilidad -->
+                            <div id="codContainer" class="border border-black bg-zinc-50 p-2 flex flex-col justify-center items-center h-[58px]">
                                 <span class="text-[9px] font-black text-center leading-none block mb-1 tracking-wider">PAGO CONTRA ENTREGA (COD):</span>
-                                <span class="text-sm font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
+                                <span class="text-base font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
                             </div>
 
-                            <!-- Instrucciones Especiales -->
+                            <!-- Instrucciones Especiales - Tipografía más amplia -->
                             <div class="border border-black p-2 bg-zinc-50 flex items-start gap-1.5 h-auto min-h-[50px]" id="previewNotesContainer">
                                 <span class="font-black text-[9px] uppercase tracking-wider block text-zinc-500 shrink-0 mt-0.5">Inst:</span>
-                                <p class="text-[11px] font-bold leading-normal flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
+                                <p class="text-xs font-bold leading-snug flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
                             </div>
                         </div>
 
@@ -326,6 +326,7 @@
             document.getElementById('headerLogoSvg').classList.remove('hidden');
         }
 
+        // Cambios automáticos a Vector SVG si la imagen local no existe (vista impresión)
         function switchToSvgFallbackPrint() {
             document.getElementById('printLogoPng').classList.add('hidden');
             document.getElementById('printLogoSvg').classList.remove('hidden');
@@ -371,19 +372,19 @@
             // Destinatario
             const destName = document.getElementById('inputDestName').value.trim();
             document.getElementById('previewDestName').innerText = destName ? destName : '........................................';
-            document.getElementById('previewDestName').className = destName ? 'text-base font-black uppercase leading-tight text-zinc-950' : 'dotted-line';
+            document.getElementById('previewDestName').className = destName ? 'text-xl font-black uppercase leading-none text-zinc-950' : 'dotted-line';
 
             const destPhone = document.getElementById('inputDestPhone').value.trim();
             document.getElementById('previewDestPhone').innerText = destPhone ? destPhone : '......................';
-            document.getElementById('previewDestPhone').className = destPhone ? 'font-mono text-xs font-black text-zinc-950' : 'dotted-line';
+            document.getElementById('previewDestPhone').className = destPhone ? 'font-mono text-sm font-black text-zinc-950' : 'dotted-line';
 
             const destCode = document.getElementById('inputDestCode').value.trim();
             document.getElementById('previewDestCode').innerText = destCode ? destCode : '......................';
-            document.getElementById('previewDestCode').className = destCode ? 'font-mono text-xs font-black text-zinc-950' : 'dotted-line';
+            document.getElementById('previewDestCode').className = destCode ? 'font-mono text-sm font-black text-zinc-950' : 'dotted-line';
 
             const destAddress = document.getElementById('inputDestAddress').value.trim();
             document.getElementById('previewDestAddress').innerText = destAddress ? destAddress : '..............................................................................';
-            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-xs block leading-relaxed break-words text-zinc-950' : 'dotted-line break-words block';
+            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-sm block leading-relaxed break-words text-zinc-950' : 'dotted-line break-words block';
 
             // Remitente
             const remName = document.getElementById('inputRemName').value.trim();
@@ -405,13 +406,13 @@
             // Datos Adicionales (COD y Notas)
             const codValue = document.getElementById('inputCod').value.trim();
             document.getElementById('codValue').innerText = codValue ? codValue : '..........';
-            document.getElementById('codValue').className = codValue ? 'text-sm font-black font-mono text-zinc-950' : 'dotted-line text-xs';
+            document.getElementById('codValue').className = codValue ? 'text-base font-black font-mono text-zinc-950' : 'dotted-line text-sm';
 
             const notesValue = document.getElementById('inputNotes').value.trim();
             document.getElementById('previewNotes').innerText = notesValue ? notesValue : '..............................................................................';
-            document.getElementById('previewNotes').className = notesValue ? 'text-[11px] font-bold leading-normal text-zinc-950' : 'dotted-line block';
+            document.getElementById('previewNotes').className = notesValue ? 'text-xs font-bold leading-snug text-zinc-950' : 'dotted-line block';
 
-            // Sanitización de texto para QR para evitar sobrecarga de bits
+            // Sanitización de texto para evitar errores de bits
             function cleanText(text) {
                 if (!text) return "";
                 return text
@@ -420,8 +421,21 @@
                     .replace(/[^\x00-\x7F]/g, "");    // Eliminar caracteres especiales
             }
 
-            // El código QR codifica puramente el nombre del destinatario de manera súper compacta
-            const qrText = destName ? `Dest: ${cleanText(destName)}` : "";
+            // --- Lógica del Código QR Inteligente para Llamadas de Alta Velocidad ---
+            const cleanPhone = destPhone.replace(/\D/g, ""); // Extraer puros números
+            let qrText = "";
+            let qrLabelText = "SCAN NOMBRE";
+
+            if (cleanPhone) {
+                // Al escanearlo, el teléfono lo interpreta como un enlace telefónico directo (abre Dialer/App de llamadas)
+                qrText = `tel:${cleanPhone}`;
+                qrLabelText = "LLAMAR DESTINATARIO";
+            } else if (destName) {
+                // Respaldo por si no tiene teléfono: escanea el nombre
+                qrText = cleanText(destName);
+                qrLabelText = "SCAN NOMBRE";
+            }
+
             const qrContainer = document.getElementById("qrcode");
             const qrLabel = document.getElementById("qrLabel");
             const qrPlaceholder = document.getElementById("qrPlaceholder");
@@ -429,6 +443,8 @@
             if (qrText) {
                 qrContainer.innerHTML = ""; // Limpiar
                 qrLabel.classList.remove('hidden');
+                qrLabel.innerText = qrLabelText; // Asignar el texto dinámico al pie del QR
+                
                 try {
                     new QRCode(qrContainer, {
                         text: qrText,
@@ -443,7 +459,7 @@
                     qrContainer.innerHTML = "<div class='text-[6px] font-bold text-center pt-5 leading-none'>Error QR</div>";
                 }
             } else {
-                // Si el nombre está vacío, mostrar el espacio reservado
+                // Si está vacío, mostrar el espacio reservado original
                 qrContainer.innerHTML = "";
                 qrContainer.appendChild(qrPlaceholder);
                 qrLabel.classList.add('hidden');
