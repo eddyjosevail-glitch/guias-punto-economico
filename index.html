@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guías Punto Económico - Formato Vertical Alta Legibilidad</title>
+    <!-- Tailwind CSS para el diseño adaptativo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos Lucide para la interfaz de usuario -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QRCodeJS para la generación del código QR sin depender de internet -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-card {
+                border: 2px solid #000 !important;
+                box-shadow: none !important;
+                margin: 0 auto !important;
+                padding: 1.25rem !important;
+                max-width: 440px !important;
+                width: 440px !important;
+                height: auto !important;
+                border-radius: 0px !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+        }
+        /* Estilos de alto contraste en escala de grises con tipografía grande */
+        .dotted-line {
+            color: #71717a;
+            font-family: monospace;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body class="bg-zinc-100 min-h-screen font-sans text-zinc-950 antialiased flex flex-col pb-6 text-xs">
+
+    <!-- Encabezado con Identidad de Marca Ultra Compacto -->
+    <header class="bg-white border-b border-zinc-300 py-2 px-4 mb-4 no-print shadow-sm">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+                <!-- Logotipo Principal Compacto (Sin Pin de Ubicación) -->
+                <div class="relative w-40 h-14 flex items-center justify-center bg-white rounded overflow-hidden shrink-0">
+                    <img id="headerLogoPng" src="punto eco.png" alt="Punto Económico Logo" class="w-full h-full object-contain" onerror="switchToSvgFallback()">
+                    <svg id="headerLogoSvg" class="hidden w-full h-full" viewBox="0 0 500 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <text x="10" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="105" font-weight="900" fill="#000000" letter-spacing="-3px">Punto</text>
+                        <text x="10" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="55" font-weight="800" fill="#000000" letter-spacing="-1px">Económico</text>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-black text-sm uppercase tracking-tight text-zinc-950">
+                        Punto Económico
+                    </h1>
+                    <p class="text-[10px] text-zinc-500 font-medium">Panel de Control de Guías</p>
+                </div>
+            </div>
+            <!-- Acciones Rápidas Compactas -->
+            <div class="flex gap-2">
+                <button onclick="copyToClipboard()" class="flex items-center gap-1.5 bg-zinc-850 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm bg-zinc-800">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    WhatsApp
+                </button>
+                <button onclick="window.print()" class="flex items-center gap-1.5 bg-black hover:bg-zinc-900 text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    Imprimir Guía
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal Compacto -->
+    <main class="max-w-5xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow">
+        
+        <!-- Panel de Edición Compacto (Izquierda) -->
+        <section class="lg:col-span-5 space-y-3 no-print">
+            <div class="bg-white p-4 rounded-lg border border-zinc-300 shadow-sm">
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-zinc-100">
+                    <h2 class="font-black text-zinc-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                        <i data-lucide="sliders" class="w-4 h-4"></i>
+                        Datos de la Guía
+                    </h2>
+                    <button onclick="clearAllFields()" class="text-[10px] font-bold text-red-600 hover:text-red-800 border border-red-150 hover:border-red-300 px-1.5 py-0.5 rounded transition flex items-center gap-1">
+                        <i data-lucide="trash-2" class="w-3 h-3"></i>
+                        Limpiar Todo
+                    </button>
+                </div>
+                
+                <div class="space-y-2.5">
+                    <!-- Configuración de Marca -->
+                    <div class="p-2 border-l-2 border-zinc-700 bg-zinc-50 rounded-r space-y-1">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-800">🏷️ CONFIGURACIÓN</span>
+                        <label class="flex items-center gap-2 cursor-pointer py-0.5">
+                            <input type="checkbox" id="toggleLabelLogo" checked onchange="updatePreview()" class="w-3.5 h-3.5 rounded border-zinc-300 text-black focus:ring-black">
+                            <span class="text-[10px] font-bold text-zinc-700">Incluir logo en el ticket</span>
+                        </label>
+                    </div>
+
+                    <!-- Datos Generales -->
+                    <div class="p-2 border-l-2 border-zinc-400 bg-zinc-50 rounded-r space-y-1">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">📅 INFORMACIÓN GENERAL</span>
+                        <div>
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Fecha del Envío</label>
+                            <input type="text" id="inputDate" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                        </div>
+                    </div>
+
+                    <!-- Destinatario -->
+                    <div class="p-2 border-l-2 border-zinc-950 bg-zinc-50 rounded-r space-y-2">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-900 font-extrabold">👤 DESTINATARIO (RECIBE)</span>
+                        <div>
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Nombre Completo</label>
+                            <input type="text" id="inputDestName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Teléfono</label>
+                                <input type="text" id="inputDestPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Código Garita</label>
+                                <input type="text" id="inputDestCode" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-bold h-7">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Dirección de Entrega</label>
+                            <textarea id="inputDestAddress" oninput="updatePreview()" rows="2" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Remitente -->
+                    <div class="p-2 border-l-2 border-zinc-350 bg-zinc-50 rounded-r space-y-2">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">🏬 REMITENTE (ENVÍA)</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Nombre / Tienda</label>
+                                <input type="text" id="inputRemName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Teléfono Remitente</label>
+                                <input type="text" id="inputRemPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Dirección de Origen</label>
+                            <input type="text" id="inputRemAddress" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Referencias de Ubicación</label>
+                            <input type="text" id="inputRemRef" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                        </div>
+                    </div>
+
+                    <!-- Datos Extra -->
+                    <div class="p-2 border-l-2 border-zinc-500 bg-zinc-50 rounded-r space-y-2">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">📦 ADICIONALES (OPCIONAL)</span>
+                        <div class="grid grid-cols-1 gap-1.5">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Pago Contra Entrega (COD)</label>
+                                <input type="text" id="inputCod" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Instrucciones Especiales</label>
+                                <textarea id="inputNotes" oninput="updatePreview()" rows="1.5" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium resize-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Vertical Alta Legibilidad) -->
+        <section class="lg:col-span-7 flex justify-center items-start">
+            <div class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[440px] w-full flex flex-col justify-between text-black relative shadow-md">
+                
+                <!-- Logotipo de la Marca en la Guía (Sin Pin de Ubicación) -->
+                <div id="printLogoContainer" class="border-b-2 border-black pb-3 mb-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="w-36 h-12 flex items-center justify-start bg-white shrink-0">
+                            <img id="printLogoPng" src="punto eco.png" alt="Punto Económico Logo" class="w-full h-full object-contain" onerror="switchToSvgFallbackPrint()">
+                            <svg id="printLogoSvg" class="hidden w-full h-full" viewBox="0 0 500 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <text x="10" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="105" font-weight="900" fill="#000000" letter-spacing="-3px">Punto</text>
+                                <text x="10" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="55" font-weight="800" fill="#000000" letter-spacing="-1px">Económico</text>
+                            </svg>
+                        </div>
+                        <div class="text-right flex flex-col items-end leading-none">
+                            <span class="text-[10px] font-black uppercase border-2 border-black px-2.5 py-1 bg-black text-white mb-1.5 tracking-wider">GUÍA DE ENVÍO</span>
+                            <span class="text-xs font-mono font-bold uppercase tracking-wider text-zinc-800">
+                                Fecha: <span id="dateDisplay">..........</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos de Destinatario (Letras Extra Grandes) -->
+                <div class="space-y-3 flex-grow">
+                    <div class="flex items-center gap-1 border-b border-black pb-1 mb-2.5">
+                        <i data-lucide="user" class="w-4 h-4 shrink-0"></i>
+                        <span class="text-[10px] font-black uppercase tracking-wider">Destinatario (Recibe)</span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Nombre Completo:</span>
+                            <h4 class="text-base font-black uppercase leading-tight text-zinc-950" id="previewDestName">........................................</h4>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 border-t border-zinc-200 pt-2">
+                            <div>
+                                <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Teléfono:</span>
+                                <span id="previewDestPhone" class="font-mono text-xs font-black text-zinc-950">......................</span>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-black uppercase text-zinc-500 block tracking-wide">Código Garita:</span>
+                                <span id="previewDestCode" class="font-mono text-xs font-black text-zinc-950">......................</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-zinc-200 pt-2">
+                            <span class="font-black text-[9px] uppercase block text-zinc-500 tracking-wide">Dirección de Entrega:</span>
+                            <span id="previewDestAddress" class="font-bold text-xs block leading-relaxed break-words text-zinc-950">..............................................................................</span>
+                        </div>
+                    </div>
+
+                    <!-- Datos del Remitente (Compactados y Claros) -->
+                    <div class="border-t border-black pt-3 mt-4">
+                        <div class="flex items-center gap-1 border-b border-black pb-1 mb-2">
+                            <i data-lucide="store" class="w-3.5 h-3.5 shrink-0"></i>
+                            <span class="text-[10px] font-black uppercase tracking-wider">Remitente (Quién Envía)</span>
+                        </div>
+                        <div class="bg-zinc-50 border border-zinc-300 p-2.5 rounded space-y-1 text-[11px] leading-snug">
+                            <div class="flex justify-between border-b border-zinc-200 pb-1">
+                                <div>
+                                    <span class="font-bold text-zinc-500">Envía:</span>
+                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 ml-1">..........</span>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-zinc-500">Cel:</span>
+                                    <span id="previewRemPhone" class="font-mono font-black text-zinc-950 ml-1">..........</span>
+                                </div>
+                            </div>
+                            <div class="pt-1">
+                                <span class="font-bold text-zinc-500 block">Dirección de Origen / Referencias:</span>
+                                <span id="previewRemAddress" class="block text-[11px] text-zinc-800 font-medium">..........</span>
+                                <span id="previewRemRef" class="block text-[10px] font-black text-zinc-950">..........</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque de Código QR, COD e Instrucciones Especiales -->
+                    <div class="grid grid-cols-12 gap-3 border-t border-black pt-3 mt-4">
+                        
+                        <!-- Columna Izquierda: Instrucciones & Monto COD (Ocupa 8 de 12 columnas) -->
+                        <div class="col-span-8 flex flex-col justify-between space-y-2">
+                            <!-- Pago Contra Entrega (COD) -->
+                            <div id="codContainer" class="border border-black bg-zinc-50 p-2 flex flex-col justify-center items-center h-[55px]">
+                                <span class="text-[9px] font-black text-center leading-none block mb-1 tracking-wider">PAGO CONTRA ENTREGA (COD):</span>
+                                <span class="text-sm font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
+                            </div>
+
+                            <!-- Instrucciones Especiales -->
+                            <div class="border border-black p-2 bg-zinc-50 flex items-start gap-1.5 h-auto min-h-[50px]" id="previewNotesContainer">
+                                <span class="font-black text-[9px] uppercase tracking-wider block text-zinc-500 shrink-0 mt-0.5">Inst:</span>
+                                <p class="text-[11px] font-bold leading-normal flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Código QR Oficial (Ocupa 4 de 12 columnas) -->
+                        <div class="col-span-4 flex flex-col items-center justify-center border border-zinc-200 p-1 bg-white shrink-0">
+                            <div id="qrcode" class="flex items-center justify-center w-[85px] h-[85px]">
+                                <div id="qrPlaceholder" class="text-[9px] font-black text-center text-zinc-400 border border-dashed border-zinc-300 w-[78px] h-[78px] flex items-center justify-center leading-none">QR</div>
+                            </div>
+                            <span id="qrLabel" class="hidden text-[6px] font-mono font-black tracking-tight uppercase mt-1 text-center leading-none">SCAN NOMBRE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Corte Física (Pie de Página) -->
+                <div class="border-t-2 border-dashed border-black mt-5 pt-3 flex flex-col items-center justify-center gap-1.5">
+                    <div class="flex items-end h-3 gap-[1px] mb-0.5 opacity-90">
+                        <div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div>
+                    </div>
+                    <div class="no-print flex items-center gap-1 text-[8px] uppercase font-black tracking-wider text-zinc-400 leading-none">
+                        <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+                        <span>Línea de corte / Ticket de mensajería</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Notificación emergente de Copiado Compacto -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-black text-white border border-white px-4 py-2 rounded shadow-xl flex items-center gap-2 transform translate-y-16 opacity-0 transition duration-300 ease-in-out pointer-events-none no-print">
+        <div class="bg-white text-black p-0.5 font-bold rounded-sm">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+        </div>
+        <span class="text-[11px] font-black uppercase tracking-wider">¡Copiado para WhatsApp!</span>
+    </div>
+
+    <!-- Script de Automatización de Datos -->
+    <script>
+        window.onload = function() {
+            // Establecer fecha por defecto de hoy
+            const date = new Date();
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            
+            document.getElementById('inputDate').value = `${day}/${month}/${year}`;
+
+            // Iniciar iconos y construir vista previa en blanco
+            lucide.createIcons();
+            updatePreview();
+        };
+
+        // Cambios automáticos a Vector SVG si la imagen local no existe
+        function switchToSvgFallback() {
+            document.getElementById('headerLogoPng').classList.add('hidden');
+            document.getElementById('headerLogoSvg').classList.remove('hidden');
+        }
+
+        function switchToSvgFallbackPrint() {
+            document.getElementById('printLogoPng').classList.add('hidden');
+            document.getElementById('printLogoSvg').classList.remove('hidden');
+        }
+
+        // Vaciar todos los campos del panel y restablecer plantilla
+        function clearAllFields() {
+            const date = new Date();
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            
+            document.getElementById('inputDate').value = `${day}/${month}/${year}`;
+            document.getElementById('inputDestName').value = '';
+            document.getElementById('inputDestPhone').value = '';
+            document.getElementById('inputDestCode').value = '';
+            document.getElementById('inputDestAddress').value = '';
+            document.getElementById('inputRemName').value = '';
+            document.getElementById('inputRemPhone').value = '';
+            document.getElementById('inputRemAddress').value = '';
+            document.getElementById('inputRemRef').value = '';
+            document.getElementById('inputCod').value = '';
+            document.getElementById('inputNotes').value = '';
+            updatePreview();
+        }
+
+        // Función centralizada para actualizar la visualización de la plantilla
+        function updatePreview() {
+            // Mostrar u ocultar el logotipo del ticket
+            const toggleLabelLogo = document.getElementById('toggleLabelLogo').checked;
+            const printLogoContainer = document.getElementById('printLogoContainer');
+            if (toggleLabelLogo) {
+                printLogoContainer.classList.remove('hidden');
+            } else {
+                printLogoContainer.classList.add('hidden');
+            }
+
+            // Capturar valores ingresados o definir líneas punteadas de plantilla
+            const dateVal = document.getElementById('inputDate').value.trim();
+            document.getElementById('dateDisplay').innerText = dateVal ? dateVal : '..........';
+            document.getElementById('dateDisplay').className = dateVal ? 'font-mono text-xs font-extrabold text-zinc-950' : 'dotted-line';
+
+            // Destinatario
+            const destName = document.getElementById('inputDestName').value.trim();
+            document.getElementById('previewDestName').innerText = destName ? destName : '........................................';
+            document.getElementById('previewDestName').className = destName ? 'text-base font-black uppercase leading-tight text-zinc-950' : 'dotted-line';
+
+            const destPhone = document.getElementById('inputDestPhone').value.trim();
+            document.getElementById('previewDestPhone').innerText = destPhone ? destPhone : '......................';
+            document.getElementById('previewDestPhone').className = destPhone ? 'font-mono text-xs font-black text-zinc-950' : 'dotted-line';
+
+            const destCode = document.getElementById('inputDestCode').value.trim();
+            document.getElementById('previewDestCode').innerText = destCode ? destCode : '......................';
+            document.getElementById('previewDestCode').className = destCode ? 'font-mono text-xs font-black text-zinc-950' : 'dotted-line';
+
+            const destAddress = document.getElementById('inputDestAddress').value.trim();
+            document.getElementById('previewDestAddress').innerText = destAddress ? destAddress : '..............................................................................';
+            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-xs block leading-relaxed break-words text-zinc-950' : 'dotted-line break-words block';
+
+            // Remitente
+            const remName = document.getElementById('inputRemName').value.trim();
+            document.getElementById('previewRemName').innerText = remName ? remName : '..........';
+            document.getElementById('previewRemName').className = remName ? 'text-[11px] font-black uppercase text-zinc-950' : 'dotted-line';
+
+            const remPhone = document.getElementById('inputRemPhone').value.trim();
+            document.getElementById('previewRemPhone').innerText = remPhone ? remPhone : '..........';
+            document.getElementById('previewRemPhone').className = remPhone ? 'font-mono text-[11px] font-black text-zinc-950' : 'dotted-line';
+
+            const remAddress = document.getElementById('inputRemAddress').value.trim();
+            document.getElementById('previewRemAddress').innerText = remAddress ? remAddress : '..........';
+            document.getElementById('previewRemAddress').className = remAddress ? 'text-[11px] font-bold block text-zinc-950 truncate' : 'dotted-line block';
+
+            const remRef = document.getElementById('inputRemRef').value.trim();
+            document.getElementById('previewRemRef').innerText = remRef ? remRef : '..........';
+            document.getElementById('previewRemRef').className = remRef ? 'text-[10px] font-black block text-zinc-950 truncate' : 'dotted-line block';
+
+            // Datos Adicionales (COD y Notas)
+            const codValue = document.getElementById('inputCod').value.trim();
+            document.getElementById('codValue').innerText = codValue ? codValue : '..........';
+            document.getElementById('codValue').className = codValue ? 'text-sm font-black font-mono text-zinc-950' : 'dotted-line text-xs';
+
+            const notesValue = document.getElementById('inputNotes').value.trim();
+            document.getElementById('previewNotes').innerText = notesValue ? notesValue : '..............................................................................';
+            document.getElementById('previewNotes').className = notesValue ? 'text-[11px] font-bold leading-normal text-zinc-950' : 'dotted-line block';
+
+            // Sanitización de texto para QR para evitar sobrecarga de bits
+            function cleanText(text) {
+                if (!text) return "";
+                return text
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "") // Eliminar acentos
+                    .replace(/[^\x00-\x7F]/g, "");    // Eliminar caracteres especiales
+            }
+
+            // El código QR codifica puramente el nombre del destinatario de manera súper compacta
+            const qrText = destName ? `Dest: ${cleanText(destName)}` : "";
+            const qrContainer = document.getElementById("qrcode");
+            const qrLabel = document.getElementById("qrLabel");
+            const qrPlaceholder = document.getElementById("qrPlaceholder");
+
+            if (qrText) {
+                qrContainer.innerHTML = ""; // Limpiar
+                qrLabel.classList.remove('hidden');
+                try {
+                    new QRCode(qrContainer, {
+                        text: qrText,
+                        width: 85,
+                        height: 85,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.L // Almacenamiento optimizado ultra compacto
+                    });
+                } catch (error) {
+                    console.warn("Error generando el código QR.", error);
+                    qrContainer.innerHTML = "<div class='text-[6px] font-bold text-center pt-5 leading-none'>Error QR</div>";
+                }
+            } else {
+                // Si el nombre está vacío, mostrar el espacio reservado
+                qrContainer.innerHTML = "";
+                qrContainer.appendChild(qrPlaceholder);
+                qrLabel.classList.add('hidden');
+            }
+        }
+
+        // Copiar los datos del formulario de forma organizada a WhatsApp
+        function copyToClipboard() {
+            const dateVal = document.getElementById('inputDate').value.trim();
+            const destName = document.getElementById('inputDestName').value.trim();
+            const destPhone = document.getElementById('inputDestPhone').value.trim();
+            const destCode = document.getElementById('inputDestCode').value.trim();
+            const destAddress = document.getElementById('inputDestAddress').value.trim();
+
+            const remName = document.getElementById('inputRemName').value.trim();
+            const remPhone = document.getElementById('inputRemPhone').value.trim();
+            const remAddress = document.getElementById('inputRemAddress').value.trim();
+            const remRef = document.getElementById('inputRemRef').value.trim();
+
+            const codValue = document.getElementById('inputCod').value.trim();
+            const notesValue = document.getElementById('inputNotes').value.trim();
+            
+            let message = `📦 *GUÍA DE ENVÍO* 📦\n`;
+            if (dateVal) {
+                message += `📅 *Fecha:* ${dateVal}\n`;
+            }
+            if (codValue) {
+                message += `💰 *Monto COD:* ${codValue}\n`;
+            }
+            
+            message += `\n👤 *DESTINATARIO (Quién recibe):*\n`;
+            message += `• *Nombre:* ${destName || '---'}\n`;
+            message += `• *Teléfono:* ${destPhone || '---'} 📱\n`;
+            message += `• *Dirección:* ${destAddress || '---'}\n`;
+            if (destCode) {
+                message += `• *🔑 ACCESO GARITA:* Código *${destCode}*\n`;
+            }
+            
+            message += `\n🏬 *REMITENTE (Quién envía):*\n`;
+            message += `• *Tienda/Nombre:* ${remName || '---'}\n`;
+            message += `• *Teléfono:* ${remPhone || '---'} 📱\n`;
+            message += `• *Dirección:* ${remAddress || '---'}\n`;
+            if (remRef) {
+                message += `• *Referencia:* ${remRef}\n`;
+            }
+
+            if (notesValue) {
+                message += `\n⚠️ *Nota para el Mensajero:* ${notesValue}\n`;
+            }
+
+            // Copiado al portapapeles compatible
+            const tempTextArea = document.createElement("textarea");
+            document.body.appendChild(tempTextArea);
+            tempTextArea.value = message;
+            tempTextArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTextArea);
+            
+            showToast();
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-16', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-16', 'opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
