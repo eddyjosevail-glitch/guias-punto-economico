@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guías Punto Económico - Formato Cuadrado Alta Legibilidad</title>
-    <!-- Tailwind CSS para el diseño adaptativo -->
+    <title>Guías Punto Económico - Formato Cuadrado de Alta Densidad</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Iconos Lucide para la interfaz de usuario -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- QRCodeJS para la generación del código QR sin depender de internet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Html2Canvas para permitir la descarga de la guía como imagen PNG de alta definición -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
         @media print {
             body {
@@ -22,7 +19,7 @@
                 display: none !important;
             }
             .print-card {
-                border: 2px solid #000 !important;
+                border: 3px solid #000 !important;
                 box-shadow: none !important;
                 margin: 0 auto !important;
                 padding: 1.25rem !important;
@@ -47,7 +44,6 @@
 </head>
 <body class="bg-zinc-100 min-h-screen font-sans text-zinc-950 antialiased flex flex-col pb-6 text-xs">
 
-    <!-- Encabezado con Identidad de Marca Ultra Compacto -->
     <header class="bg-white border-b border-zinc-300 py-2 px-4 mb-4 no-print shadow-sm">
         <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <div class="flex items-center gap-3">
@@ -84,10 +80,8 @@
         </div>
     </header>
 
-    <!-- Contenido Principal Compacto -->
     <main class="max-w-5xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow">
         
-        <!-- Panel de Edición Compacto (Izquierda) -->
         <section class="lg:col-span-5 space-y-3 no-print">
             <div class="bg-white p-4 rounded-lg border border-zinc-300 shadow-sm">
                 <div class="flex items-center justify-between mb-3 pb-2 border-b border-zinc-100">
@@ -143,9 +137,18 @@
                         </div>
                     </div>
 
-                    <!-- Remitente -->
+                    <!-- Remitente con opción de Dirección Preestablecida -->
                     <div class="p-2 border-l-2 border-zinc-350 bg-zinc-50 rounded-r space-y-2">
                         <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">🏬 REMITENTE (ENVÍA)</span>
+                        
+                        <!-- Toggle de dirección preestablecida -->
+                        <div class="flex items-center gap-2 py-1 px-1.5 bg-zinc-200/70 rounded border border-zinc-300">
+                            <input type="checkbox" id="presetAddressToggle" onchange="togglePresetAddress()" class="w-4.5 h-4.5 rounded border-zinc-400 text-black focus:ring-black cursor-pointer">
+                            <label for="presetAddressToggle" class="text-[10px] font-black text-zinc-850 cursor-pointer select-none uppercase tracking-tight">
+                                📍 Usar Plaza Primavera (KM 13.5)
+                            </label>
+                        </div>
+
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Nombre / Tienda</label>
@@ -184,14 +187,13 @@
             </div>
         </section>
 
-        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Cuadrado de Alta Legibilidad) -->
         <section class="lg:col-span-7 flex justify-center items-start">
             <div id="captureArea" class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[480px] w-full aspect-square flex flex-col justify-between text-black relative shadow-md">
                 
                 <!-- Logotipo de la Marca en la Guía (Sin Pin de Ubicación) -->
                 <div id="printLogoContainer" class="border-b-2 border-black pb-2 mb-2">
                     <div class="flex items-center justify-between gap-2">
-                        <div class="w-36 h-12 flex items-center justify-start bg-white shrink-0">
+                        <div class="w-40 h-14 flex items-center justify-center bg-white shrink-0">
                             <img id="printLogoPng" src="punto eco.png" alt="Punto Económico Logo" class="w-full h-full object-contain" onerror="switchToSvgFallbackPrint()">
                             <svg id="printLogoSvg" class="hidden w-full h-full" viewBox="0 0 500 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <text x="10" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="105" font-weight="900" fill="#000000" letter-spacing="-3px">Punto</text>
@@ -263,25 +265,25 @@
                         </div>
                         <span id="qrLabel" class="hidden text-[6px] font-mono font-black tracking-tight uppercase text-center leading-none mt-1">SCAN NOMBRE</span>
 
-                        <!-- Datos del Remitente Compactados -->
+                        <!-- Datos del Remitente Compactados y Ajustables en Multilínea sin recorte -->
                         <div class="border border-black p-1.5 mt-2 bg-zinc-50 rounded-sm">
                             <div class="flex items-center gap-0.5 border-b border-black pb-0.5 mb-1">
                                 <i data-lucide="store" class="w-2.5 h-2.5 shrink-0"></i>
                                 <span class="text-[8px] font-black uppercase tracking-wider">Remitente (Envía)</span>
                             </div>
-                            <div class="space-y-0.5 text-[8.5px] leading-none">
-                                <div class="flex justify-between">
-                                    <span class="font-bold text-zinc-500">Envía:</span>
-                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 truncate max-w-[70px]">..........</span>
+                            <div class="space-y-1.5 text-[8.5px] leading-tight">
+                                <div class="flex justify-between gap-1 border-b border-zinc-200 pb-0.5">
+                                    <span class="font-bold text-zinc-500 whitespace-nowrap">Envía:</span>
+                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 break-words text-right">..........</span>
                                 </div>
-                                <div class="flex justify-between mt-0.5">
+                                <div class="flex justify-between border-b border-zinc-200 pb-0.5">
                                     <span class="font-bold text-zinc-500">Cel:</span>
                                     <span id="previewRemPhone" class="font-mono font-black text-zinc-950">..........</span>
                                 </div>
-                                <div class="pt-1 border-t border-zinc-200 mt-1">
-                                    <span class="font-bold text-zinc-500 block mb-0.5">Origen / Refs:</span>
-                                    <span id="previewRemAddress" class="block text-[8px] text-zinc-800 font-medium truncate max-w-[110px]">..........</span>
-                                    <span id="previewRemRef" class="block text-[7.5px] font-black text-zinc-950 truncate max-w-[110px]">..........</span>
+                                <div class="pt-0.5">
+                                    <span class="font-bold text-zinc-500 block mb-0.5 leading-none">Origen / Refs:</span>
+                                    <span id="previewRemAddress" class="block text-[8px] text-zinc-800 font-medium break-words leading-tight">..........</span>
+                                    <span id="previewRemRef" class="block text-[7.5px] font-black text-zinc-950 break-words leading-tight mt-0.5">..........</span>
                                 </div>
                             </div>
                         </div>
@@ -319,8 +321,10 @@
         <span class="text-[11px] font-black uppercase tracking-wider">¡Copiado para WhatsApp!</span>
     </div>
 
-    <!-- Script de Automatización de Datos -->
     <script>
+        // Almacenamos temporalmente la dirección del remitente anterior para poder restaurarla si se apaga el toggle
+        let previousRemAddress = "";
+
         window.onload = function() {
             // Establecer fecha por defecto de hoy
             const date = new Date();
@@ -369,6 +373,26 @@
             });
         }
 
+        // Función del Toggle para activar la dirección fija preestablecida
+        function togglePresetAddress() {
+            const presetToggle = document.getElementById('presetAddressToggle');
+            const addressInput = document.getElementById('inputRemAddress');
+            
+            if (presetToggle.checked) {
+                // Respaldamos el valor previo en caso de que desactiven el toggle
+                previousRemAddress = addressInput.value;
+                addressInput.value = "KM.13.5 Carretera al atlántico, Centro comercial Plaza Primavera, Local #1";
+                addressInput.readOnly = true; // Bloqueamos edición directa para seguridad
+                addressInput.classList.add('bg-zinc-150', 'text-zinc-500', 'cursor-not-allowed');
+            } else {
+                // Restauramos el estado manual anterior
+                addressInput.value = previousRemAddress;
+                addressInput.readOnly = false;
+                addressInput.classList.remove('bg-zinc-150', 'text-zinc-500', 'cursor-not-allowed');
+            }
+            updatePreview();
+        }
+
         // Vaciar todos los campos del panel y restablecer plantilla
         function clearAllFields() {
             const date = new Date();
@@ -383,7 +407,16 @@
             document.getElementById('inputDestAddress').value = '';
             document.getElementById('inputRemName').value = '';
             document.getElementById('inputRemPhone').value = '';
-            document.getElementById('inputRemAddress').value = '';
+            
+            // Restablecer el toggle de dirección preestablecida
+            const presetToggle = document.getElementById('presetAddressToggle');
+            const addressInput = document.getElementById('inputRemAddress');
+            presetToggle.checked = false;
+            addressInput.value = '';
+            addressInput.readOnly = false;
+            addressInput.classList.remove('bg-zinc-150', 'text-zinc-500', 'cursor-not-allowed');
+            previousRemAddress = "";
+
             document.getElementById('inputRemRef').value = '';
             document.getElementById('inputCod').value = '';
             document.getElementById('inputNotes').value = '';
@@ -423,22 +456,22 @@
             document.getElementById('previewDestAddress').innerText = destAddress ? destAddress : '..............................................................................';
             document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-sm block leading-snug break-words text-zinc-950' : 'dotted-line break-words block';
 
-            // Remitente
+            // Remitente - Sin límites para direcciones largas
             const remName = document.getElementById('inputRemName').value.trim();
             document.getElementById('previewRemName').innerText = remName ? remName : '..........';
-            document.getElementById('previewRemName').className = remName ? 'text-[11px] font-black uppercase text-zinc-950' : 'dotted-line';
+            document.getElementById('previewRemName').className = remName ? 'text-[8.5px] font-black uppercase text-zinc-950 break-words' : 'dotted-line';
 
             const remPhone = document.getElementById('inputRemPhone').value.trim();
             document.getElementById('previewRemPhone').innerText = remPhone ? remPhone : '..........';
-            document.getElementById('previewRemPhone').className = remPhone ? 'font-mono text-[11px] font-black text-zinc-950' : 'dotted-line';
+            document.getElementById('previewRemPhone').className = remPhone ? 'font-mono text-[8.5px] font-black text-zinc-950' : 'dotted-line';
 
             const remAddress = document.getElementById('inputRemAddress').value.trim();
             document.getElementById('previewRemAddress').innerText = remAddress ? remAddress : '..........';
-            document.getElementById('previewRemAddress').className = remAddress ? 'text-[11px] font-bold block text-zinc-950 truncate' : 'dotted-line block';
+            document.getElementById('previewRemAddress').className = remAddress ? 'text-[8px] text-zinc-800 font-medium break-words leading-tight block' : 'dotted-line block';
 
             const remRef = document.getElementById('inputRemRef').value.trim();
             document.getElementById('previewRemRef').innerText = remRef ? remRef : '..........';
-            document.getElementById('previewRemRef').className = remRef ? 'text-[10px] font-black block text-zinc-950 truncate' : 'dotted-line block';
+            document.getElementById('previewRemRef').className = remRef ? 'text-[7.5px] font-black text-zinc-950 break-words leading-tight mt-0.5 block' : 'dotted-line block';
 
             // Datos Adicionales (COD y Notas)
             const codValue = document.getElementById('inputCod').value.trim();
