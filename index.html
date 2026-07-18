@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guías Punto Económico - Formato Cuadrado de Alta Densidad</title>
+    <title>Guías Punto Económico - Etiqueta Industrial de Alta Densidad</title>
+    <!-- Tailwind CSS para el diseño adaptativo -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos Lucide para la interfaz de usuario -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QRCodeJS para la generación del código QR sin depender de internet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- html2canvas para la descarga limpia de imágenes PNG -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Share+Tech+Mono&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
         @media print {
             body {
                 background-color: white !important;
@@ -22,10 +32,10 @@
                 border: 3px solid #000 !important;
                 box-shadow: none !important;
                 margin: 0 auto !important;
-                padding: 1.25rem !important;
-                max-width: 480px !important;
-                width: 480px !important;
-                height: 480px !important; /* Fuerza dimensiones perfectamente cuadradas */
+                padding: 0px !important;
+                max-width: 500px !important;
+                width: 500px !important;
+                height: 500px !important; /* Fuerza dimensiones perfectamente cuadradas */
                 aspect-ratio: 1/1 !important;
                 border-radius: 0px !important;
                 display: flex !important;
@@ -40,12 +50,15 @@
             letter-spacing: 1px;
             font-size: 13px;
         }
+        .mono-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
     </style>
 </head>
-<body class="bg-zinc-100 min-h-screen font-sans text-zinc-950 antialiased flex flex-col pb-6 text-xs">
+<body class="bg-zinc-100 min-h-screen text-zinc-950 antialiased flex flex-col pb-6 text-xs">
 
-    <header class="bg-white border-b border-zinc-300 py-2 px-4 mb-4 no-print shadow-sm">
-        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+    <header class="bg-white border-b border-zinc-300 py-2.5 px-4 mb-4 no-print shadow-sm">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <!-- Logotipo Principal Compacto (Sin Pin de Ubicación) -->
                 <div class="relative w-40 h-14 flex items-center justify-center bg-white rounded overflow-hidden shrink-0">
@@ -59,20 +72,20 @@
                     <h1 class="font-black text-sm uppercase tracking-tight text-zinc-950">
                         Punto Económico
                     </h1>
-                    <p class="text-[10px] text-zinc-500 font-medium">Panel de Control de Guías</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Etiquetas Logísticas de Alta Densidad</p>
                 </div>
             </div>
             <!-- Acciones Rápidas Compactas -->
             <div class="flex gap-2 flex-wrap justify-center">
-                <button onclick="copyToClipboard()" class="flex items-center gap-1.5 bg-zinc-800 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
+                <button onclick="copyToClipboard()" class="flex items-center gap-1.5 bg-zinc-850 hover:bg-black text-white px-3.5 py-2 rounded-lg text-xs font-bold transition shadow-sm bg-zinc-800">
                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    WhatsApp
+                    Copiar WhatsApp
                 </button>
-                <button onclick="saveAsImage()" class="flex items-center gap-1.5 bg-zinc-900 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
+                <button onclick="saveAsImage()" class="flex items-center gap-1.5 bg-zinc-900 hover:bg-black text-white px-3.5 py-2 rounded-lg text-xs font-bold transition shadow-sm">
                     <i data-lucide="image" class="w-3.5 h-3.5"></i>
-                    Guardar Imagen
+                    Descargar Imagen
                 </button>
-                <button onclick="window.print()" class="flex items-center gap-1.5 bg-black hover:bg-zinc-900 text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
+                <button onclick="window.print()" class="flex items-center gap-1.5 bg-black hover:bg-zinc-900 text-white px-3.5 py-2 rounded-lg text-xs font-bold transition shadow-sm">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                     Imprimir Guía
                 </button>
@@ -80,51 +93,57 @@
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow">
+    <main class="max-w-6xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow">
         
-        <section class="lg:col-span-5 space-y-3 no-print">
-            <div class="bg-white p-4 rounded-lg border border-zinc-300 shadow-sm">
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-zinc-100">
+        <section class="lg:col-span-5 space-y-3 no-print max-h-[85vh] overflow-y-auto pr-1">
+            <div class="bg-white p-4 rounded-xl border border-zinc-300 shadow-sm">
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-zinc-150">
                     <h2 class="font-black text-zinc-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                         <i data-lucide="sliders" class="w-4 h-4"></i>
                         Datos de la Guía
                     </h2>
-                    <button onclick="clearAllFields()" class="text-[10px] font-bold text-red-600 hover:text-red-800 border border-red-150 hover:border-red-300 px-1.5 py-0.5 rounded transition flex items-center gap-1">
+                    <button onclick="clearAllFields()" class="text-[10px] font-bold text-red-600 hover:text-red-800 border border-red-150 hover:border-red-300 px-2 py-0.5 rounded transition flex items-center gap-1">
                         <i data-lucide="trash-2" class="w-3 h-3"></i>
                         Limpiar Todo
                     </button>
                 </div>
                 
-                <div class="space-y-2.5">
-                    <!-- Configuración de Marca -->
-                    <div class="p-2 border-l-2 border-zinc-700 bg-zinc-50 rounded-r space-y-1">
-                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-800">🏷️ CONFIGURACIÓN</span>
-                        <label class="flex items-center gap-2 cursor-pointer py-0.5">
-                            <input type="checkbox" id="toggleLabelLogo" checked onchange="updatePreview()" class="w-3.5 h-3.5 rounded border-zinc-300 text-black focus:ring-black">
-                            <span class="text-[10px] font-bold text-zinc-700">Incluir logo en el ticket</span>
-                        </label>
-                    </div>
-
-                    <!-- Datos Generales -->
-                    <div class="p-2 border-l-2 border-zinc-400 bg-zinc-50 rounded-r space-y-1">
-                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">📅 INFORMACIÓN GENERAL</span>
-                        <div>
-                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Fecha del Envío</label>
-                            <input type="text" id="inputDate" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                <div class="space-y-3">
+                    <!-- Configuración de Marca y Guía -->
+                    <div class="p-2.5 border-l-2 border-zinc-700 bg-zinc-50 rounded-r space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-800">🏷️ CONFIGURACIÓN</span>
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" id="toggleLabelLogo" checked onchange="updatePreview()" class="w-3.5 h-3.5 rounded border-zinc-300 text-black focus:ring-black">
+                                <span class="text-[9px] font-bold text-zinc-700">Incluir logo</span>
+                            </label>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Fecha del Envío</label>
+                                <input type="text" id="inputDate" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-0.5">
+                                    <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider">Número Guía</label>
+                                    <button onclick="regenerateTracking()" class="text-[8px] font-black text-zinc-600 hover:text-black uppercase">Refrescar</button>
+                                </div>
+                                <input type="text" id="inputTracking" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-bold h-7 uppercase">
+                            </div>
                         </div>
                     </div>
 
                     <!-- Destinatario -->
-                    <div class="p-2 border-l-2 border-zinc-950 bg-zinc-50 rounded-r space-y-2">
+                    <div class="p-2.5 border-l-2 border-zinc-950 bg-zinc-50 rounded-r space-y-2">
                         <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-900 font-extrabold">👤 DESTINATARIO (RECIBE)</span>
                         <div>
                             <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Nombre Completo</label>
-                            <input type="text" id="inputDestName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            <input type="text" id="inputDestName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Teléfono</label>
-                                <input type="text" id="inputDestPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                                <input type="text" id="inputDestPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                             </div>
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Código Garita</label>
@@ -137,49 +156,84 @@
                         </div>
                     </div>
 
+                    <!-- Detalles del Envío -->
+                    <div class="p-2.5 border-l-2 border-zinc-600 bg-zinc-50 rounded-r space-y-2">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">📦 DETALLES DEL PAQUETE</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Contenido</label>
+                                <input type="text" id="inputContent" placeholder="ej. Ropa, Calzado" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none h-7">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Bultos / Piezas</label>
+                                <input type="text" id="inputPieces" placeholder="ej. 1 bulto, 2 cajas" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none h-7">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Tipo de Servicio</label>
+                                <select id="inputServiceType" onchange="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none h-7 bg-white">
+                                    <option value="ESTÁNDAR" selected>Estándar</option>
+                                    <option value="EXPRESS">Express ⚡</option>
+                                    <option value="PRIORITARIO">Prioritario 📦</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Método de Pago</label>
+                                <select id="inputPayment" onchange="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none h-7 bg-white">
+                                    <option value="TRANSFERENCIA" selected>Transferencia</option>
+                                    <option value="EFECTIVO">Efectivo</option>
+                                    <option value="CONTRA ENTREGA (COD)">Contra Entrega (COD)</option>
+                                    <option value="TARJETA">Tarjeta de Crédito</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Remitente con opción de Dirección Preestablecida -->
-                    <div class="p-2 border-l-2 border-zinc-350 bg-zinc-50 rounded-r space-y-2">
-                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">🏬 REMITENTE (ENVÍA)</span>
-                        
-                        <!-- Toggle de dirección preestablecida -->
-                        <div class="flex items-center gap-2 py-1 px-1.5 bg-zinc-200/70 rounded border border-zinc-300">
-                            <input type="checkbox" id="presetAddressToggle" onchange="togglePresetAddress()" class="w-4.5 h-4.5 rounded border-zinc-400 text-black focus:ring-black cursor-pointer">
-                            <label for="presetAddressToggle" class="text-[10px] font-black text-zinc-850 cursor-pointer select-none uppercase tracking-tight">
-                                📍 Usar Plaza Primavera (KM 13.5)
-                            </label>
+                    <div class="p-2.5 border-l-2 border-zinc-400 bg-zinc-50 rounded-r space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">🏬 REMITENTE (ENVÍA)</span>
+                            <!-- Toggle de dirección preestablecida -->
+                            <div class="flex items-center gap-1 py-0.5 px-1.5 bg-zinc-200 rounded border border-zinc-300">
+                                <input type="checkbox" id="presetAddressToggle" onchange="togglePresetAddress()" class="w-3.5 h-3.5 rounded border-zinc-450 text-black focus:ring-black cursor-pointer">
+                                <label for="presetAddressToggle" class="text-[8px] font-extrabold text-zinc-800 cursor-pointer select-none uppercase tracking-tight">
+                                    📍 Plaza Primavera (KM 13.5)
+                                </label>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Nombre / Tienda</label>
-                                <input type="text" id="inputRemName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                                <input type="text" id="inputRemName" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                             </div>
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Teléfono Remitente</label>
-                                <input type="text" id="inputRemPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                                <input type="text" id="inputRemPhone" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Dirección de Origen</label>
-                            <input type="text" id="inputRemAddress" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Dirección de Origen (Soporta Textos Largos)</label>
+                            <input type="text" id="inputRemAddress" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                         </div>
                         <div>
                             <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Referencias de Ubicación</label>
-                            <input type="text" id="inputRemRef" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                            <input type="text" id="inputRemRef" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                         </div>
                     </div>
 
-                    <!-- Datos Extra -->
-                    <div class="p-2 border-l-2 border-zinc-500 bg-zinc-50 rounded-r space-y-2">
-                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">📦 ADICIONALES (OPCIONAL)</span>
-                        <div class="grid grid-cols-1 gap-1.5">
+                    <!-- Datos Extra (COD y Notas) -->
+                    <div class="p-2.5 border-l-2 border-zinc-500 bg-zinc-50 rounded-r space-y-2">
+                        <span class="block text-[9px] font-black uppercase tracking-wider text-zinc-700">💰 ADICIONALES (OPCIONAL)</span>
+                        <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Pago Contra Entrega (COD)</label>
-                                <input type="text" id="inputCod" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium h-7">
+                                <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Monto Contra Entrega (COD)</label>
+                                <input type="text" id="inputCod" placeholder="Q. 150.00" oninput="updatePreview()" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-semibold h-7">
                             </div>
                             <div>
                                 <label class="block text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-0.5">Instrucciones Especiales</label>
-                                <textarea id="inputNotes" oninput="updatePreview()" rows="1.5" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium resize-none"></textarea>
+                                <textarea id="inputNotes" oninput="updatePreview()" rows="1" class="w-full text-xs border border-zinc-350 rounded px-2 py-1 focus:border-black outline-none font-medium resize-none h-7 pt-1"></textarea>
                             </div>
                         </div>
                     </div>
@@ -188,125 +242,158 @@
         </section>
 
         <section class="lg:col-span-7 flex justify-center items-start">
-            <div id="captureArea" class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[480px] w-full aspect-square flex flex-col justify-between text-black relative shadow-md">
+            <!-- Contenedor Forzado Cuadrado 500x500px, Todo conectado con bordes negros sólidos -->
+            <div id="captureArea" class="print-card bg-white border-[4px] border-black rounded-none p-0 max-w-[500px] w-full aspect-square flex flex-col justify-between text-black relative shadow-lg overflow-hidden">
                 
-                <!-- Logotipo de la Marca en la Guía (Sin Pin de Ubicación) -->
-                <div id="printLogoContainer" class="border-b-2 border-black pb-2 mb-2">
-                    <div class="flex items-center justify-between gap-2">
-                        <div class="w-40 h-14 flex items-center justify-center bg-white shrink-0">
+                <!-- SECCIÓN 1: HEADER (Logo y Guía/Tracking) -->
+                <div id="printLogoContainer" class="border-b-4 border-black p-3 bg-white h-[72px] shrink-0">
+                    <div class="flex items-center justify-between gap-2 h-full">
+                        <!-- Logo Sin Pin -->
+                        <div class="w-36 h-full flex items-center justify-start bg-white shrink-0">
                             <img id="printLogoPng" src="punto eco.png" alt="Punto Económico Logo" class="w-full h-full object-contain" onerror="switchToSvgFallbackPrint()">
                             <svg id="printLogoSvg" class="hidden w-full h-full" viewBox="0 0 500 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <text x="10" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="105" font-weight="900" fill="#000000" letter-spacing="-3px">Punto</text>
                                 <text x="10" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="55" font-weight="800" fill="#000000" letter-spacing="-1px">Económico</text>
                             </svg>
                         </div>
-                        <div class="text-right flex flex-col items-end leading-none">
-                            <span class="text-[9px] font-black uppercase border-2 border-black px-2 py-0.5 bg-black text-white mb-1 tracking-wider">GUÍA DE ENVÍO</span>
-                            <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-800">
-                                Fecha: <span id="dateDisplay">..........</span>
+                        <!-- Guía Logística e Info General -->
+                        <div class="text-right flex flex-col justify-center items-end leading-none h-full">
+                            <span class="text-[9px] font-black uppercase border-2 border-black px-1.5 py-0.5 bg-black text-white mb-0.5 tracking-wider">ETIQUETA LOGÍSTICA</span>
+                            <span class="text-[10px] font-mono font-black uppercase tracking-tight text-zinc-900 leading-none">
+                                GUÍA #: <span id="trackingDisplay" class="mono-font text-xs">..........</span>
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bloque de Información Cuadrado Dividido en Dos Columnas -->
-                <div class="grid grid-cols-12 gap-3 flex-grow my-1 items-stretch">
+                <!-- SECCIÓN 2: GRID CENTRAL (Destinatario & Detalles vs QR & COD) -->
+                <div class="grid grid-cols-12 flex-grow items-stretch bg-black gap-[3px] overflow-hidden">
                     
-                    <!-- Columna Izquierda: Información del Destinatario (Ocupa 7 de 12) -->
-                    <div class="col-span-7 flex flex-col justify-between border-r border-black pr-2">
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-1 border-b border-black pb-0.5">
+                    <!-- COLUMNA IZQUIERDA (Ocupa 7 de 12) - Destinatario y Datos del Paquete -->
+                    <div class="col-span-7 bg-white flex flex-col justify-between p-3 overflow-hidden">
+                        <!-- Compartimento A: Datos del Recipiente (Letras Gigantes) -->
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-1 border-b-2 border-black pb-0.5">
                                 <i data-lucide="user" class="w-3.5 h-3.5 shrink-0"></i>
-                                <span class="text-[10px] font-black uppercase tracking-wider">Destinatario (Recibe)</span>
+                                <span class="text-[9px] font-black uppercase tracking-wider text-zinc-800">Destinatario (Recibe)</span>
                             </div>
                             
-                            <div class="space-y-2.5">
+                            <div class="space-y-1.5">
                                 <div>
-                                    <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Nombre Completo:</span>
+                                    <span class="text-[8px] font-black uppercase text-zinc-500 block leading-none mb-0.5">Nombre Completo:</span>
                                     <h4 class="text-xl font-black uppercase leading-tight text-zinc-950" id="previewDestName">........................................</h4>
                                 </div>
                                 
-                                <div class="grid grid-cols-2 gap-2 border-t border-zinc-200 pt-1.5">
+                                <div class="grid grid-cols-2 gap-2 border-t border-zinc-200 pt-1">
                                     <div>
-                                        <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Teléfono:</span>
-                                        <span id="previewDestPhone" class="font-mono text-sm font-black text-zinc-950">......................</span>
+                                        <span class="text-[8px] font-black uppercase text-zinc-500 block leading-none mb-0.5">Teléfono:</span>
+                                        <span id="previewDestPhone" class="font-mono text-[13px] font-black text-zinc-950">......................</span>
                                     </div>
                                     <div>
-                                        <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Garita:</span>
-                                        <span id="previewDestCode" class="font-mono text-sm font-black text-zinc-950">......................</span>
+                                        <span class="text-[8px] font-black uppercase text-zinc-500 block leading-none mb-0.5">Garita:</span>
+                                        <span id="previewDestCode" class="font-mono text-[13px] font-black text-zinc-950">......................</span>
                                     </div>
                                 </div>
 
-                                <div class="border-t border-zinc-200 pt-1.5">
-                                    <span class="font-black text-[9px] uppercase block text-zinc-500 leading-none mb-1">Dirección de Entrega:</span>
-                                    <span id="previewDestAddress" class="font-bold text-sm block leading-snug break-words text-zinc-950">..............................................................................</span>
+                                <div class="border-t border-zinc-200 pt-1">
+                                    <span class="font-black text-[8px] uppercase block text-zinc-500 leading-none mb-0.5">Dirección de Entrega:</span>
+                                    <span id="previewDestAddress" class="font-bold text-xs block leading-tight break-words text-zinc-950">..............................................................................</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compartimento B: Detalles del Paquete -->
+                        <div class="border-t-2 border-black pt-1.5">
+                            <div class="flex items-center gap-0.5 border-b border-zinc-300 pb-0.5 mb-1">
+                                <i data-lucide="package" class="w-3 h-3 shrink-0"></i>
+                                <span class="text-[8px] font-black uppercase tracking-wider text-zinc-500">Detalles del Paquete</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[9.5px] leading-tight">
+                                <div>
+                                    <span class="text-zinc-500 font-bold block text-[7px] uppercase leading-none">Contenido:</span>
+                                    <span id="previewContent" class="font-black text-zinc-950 uppercase block truncate leading-none">..........</span>
+                                </div>
+                                <div>
+                                    <span class="text-zinc-500 font-bold block text-[7px] uppercase leading-none">Bultos/Pzas:</span>
+                                    <span id="previewPieces" class="font-black text-zinc-950 uppercase block truncate leading-none">..........</span>
+                                </div>
+                                <div>
+                                    <span class="text-zinc-500 font-bold block text-[7px] uppercase leading-none">Servicio:</span>
+                                    <span id="previewServiceType" class="font-black text-zinc-950 uppercase block truncate leading-none">ESTÁNDAR</span>
+                                </div>
+                                <div>
+                                    <span class="text-zinc-500 font-bold block text-[7px] uppercase leading-none">Método Pago:</span>
+                                    <span id="previewPayment" class="font-black text-zinc-950 uppercase block truncate text-[8.5px] leading-none">TRANSFERENCIA</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Columna Derecha: Remitente, QR y COD (Ocupa 5 de 12) -->
-                    <div class="col-span-5 flex flex-col justify-between pl-1">
+                    <!-- COLUMNA DERECHA (Ocupa 5 de 12) - Código QR & COD -->
+                    <div class="col-span-5 bg-white flex flex-col justify-between">
                         
-                        <!-- Mini Bloque de Código QR y COD -->
-                        <div class="grid grid-cols-2 gap-2 items-center">
-                            <!-- Pago Contra Entrega (COD) -->
-                            <div id="codContainer" class="border border-black bg-zinc-50 p-1 flex flex-col justify-center items-center h-[65px]">
-                                <span class="text-[7px] font-black text-center leading-none block mb-1">Monto COD:</span>
-                                <span class="text-xs font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
-                            </div>
-
-                            <!-- Código QR Compacto para Llamadas Directas -->
-                            <div class="flex flex-col items-center justify-center border border-zinc-200 p-0.5 bg-white shrink-0">
-                                <div id="qrcode" class="flex items-center justify-center w-[55px] h-[55px]">
-                                    <div id="qrPlaceholder" class="text-[7px] font-black text-center text-zinc-400 border border-dashed border-zinc-300 w-[50px] h-[50px] flex items-center justify-center leading-none">QR</div>
+                        <!-- Compartimento C: Código QR de Alta Resolución -->
+                        <div class="flex flex-col items-center justify-center p-3 flex-grow border-b-2 border-black bg-white">
+                            <div class="flex flex-col items-center justify-center border border-zinc-300 p-1 bg-white shrink-0">
+                                <div id="qrcode" class="flex items-center justify-center w-[90px] h-[90px]">
+                                    <div id="qrPlaceholder" class="text-[8px] font-black text-center text-zinc-400 border border-dashed border-zinc-300 w-[82px] h-[82px] flex items-center justify-center leading-none">QR</div>
                                 </div>
                             </div>
+                            <span id="qrLabel" class="hidden text-[7px] font-mono font-black tracking-tight uppercase text-center leading-none mt-1.5 px-1 py-0.5 bg-black text-white rounded">SCAN NOMBRE</span>
                         </div>
-                        <span id="qrLabel" class="hidden text-[6px] font-mono font-black tracking-tight uppercase text-center leading-none mt-1">SCAN NOMBRE</span>
 
-                        <!-- Datos del Remitente Compactados y Ajustables en Multilínea sin recorte -->
-                        <div class="border border-black p-1.5 mt-2 bg-zinc-50 rounded-sm">
-                            <div class="flex items-center gap-0.5 border-b border-black pb-0.5 mb-1">
-                                <i data-lucide="store" class="w-2.5 h-2.5 shrink-0"></i>
-                                <span class="text-[8px] font-black uppercase tracking-wider">Remitente (Envía)</span>
-                            </div>
-                            <div class="space-y-1.5 text-[8.5px] leading-tight">
-                                <div class="flex justify-between gap-1 border-b border-zinc-200 pb-0.5">
-                                    <span class="font-bold text-zinc-500 whitespace-nowrap">Envía:</span>
-                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 break-words text-right">..........</span>
-                                </div>
-                                <div class="flex justify-between border-b border-zinc-200 pb-0.5">
-                                    <span class="font-bold text-zinc-500">Cel:</span>
-                                    <span id="previewRemPhone" class="font-mono font-black text-zinc-950">..........</span>
-                                </div>
-                                <div class="pt-0.5">
-                                    <span class="font-bold text-zinc-500 block mb-0.5 leading-none">Origen / Refs:</span>
-                                    <span id="previewRemAddress" class="block text-[8px] text-zinc-800 font-medium break-words leading-tight">..........</span>
-                                    <span id="previewRemRef" class="block text-[7.5px] font-black text-zinc-950 break-words leading-tight mt-0.5">..........</span>
-                                </div>
-                            </div>
+                        <!-- Compartimento D: Monto Contra Entrega (COD) de Alto Impacto -->
+                        <div id="codContainer" class="bg-zinc-50 p-2 flex flex-col justify-center items-center h-[80px] shrink-0">
+                            <span class="text-[8px] font-black text-center leading-none block mb-1 tracking-wider text-zinc-500">PAGO CONTRA ENTREGA (COD)</span>
+                            <span class="text-xl font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección Inferior de Notas y Corte -->
-                <div class="border-t-2 border-black pt-2 mt-1">
-                    <!-- Instrucciones Especiales - Tipografía Amplia -->
-                    <div class="border border-black p-1.5 bg-zinc-50 flex items-center gap-2" id="previewNotesContainer">
-                        <span class="font-black text-[8px] uppercase tracking-wider block text-zinc-500 shrink-0">Inst:</span>
-                        <p class="text-[10px] font-bold leading-tight flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
+                <!-- SECCIÓN 3: REMITENTE COMPLETO (Súper amplio, sin truncar y de dos filas) -->
+                <div class="border-t-4 border-black p-2.5 bg-zinc-50 h-[105px] shrink-0 flex flex-col justify-between overflow-hidden">
+                    <div class="flex items-center gap-1 border-b border-black pb-0.5 mb-1">
+                        <i data-lucide="store" class="w-3 h-3 shrink-0"></i>
+                        <span class="text-[9px] font-black uppercase tracking-wider text-zinc-600">Remitente (Quién Envía)</span>
                     </div>
+                    <!-- Fila 1: Contacto (Nombre y Celular) -->
+                    <div class="grid grid-cols-12 gap-2 text-[10px] leading-tight items-center mb-1">
+                        <div class="col-span-7">
+                            <span class="text-[7.5px] font-black text-zinc-400 uppercase block leading-none mb-0.5">Nombre / Tienda:</span>
+                            <span id="previewRemName" class="font-black uppercase text-zinc-950 text-xs block truncate leading-none">..........</span>
+                        </div>
+                        <div class="col-span-5 border-l border-zinc-300 pl-2">
+                            <span class="text-[7.5px] font-black text-zinc-400 uppercase block leading-none mb-0.5">Teléfono:</span>
+                            <span id="previewRemPhone" class="font-mono font-black text-zinc-950 text-xs block truncate leading-none">..........</span>
+                        </div>
+                    </div>
+                    <!-- Fila 2: Dirección y Referencia de Origen de Ancho Completo -->
+                    <div class="border-t border-zinc-200 pt-1 leading-none">
+                        <span class="text-[7.5px] font-black text-zinc-400 uppercase block leading-none mb-0.5">Dirección de Origen y Referencias:</span>
+                        <div class="flex flex-col gap-0.5">
+                            <span id="previewRemAddress" class="text-zinc-950 font-bold text-[9.5px] leading-tight break-words block">..........</span>
+                            <span id="previewRemRef" class="text-zinc-700 font-extrabold text-[8px] leading-tight break-words block">..........</span>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Código de Barras / Corte Simulado -->
-                    <div class="border-t border-dashed border-black mt-2 pt-2 flex flex-col items-center justify-center gap-1">
-                        <div class="flex items-end h-2 gap-[1px] opacity-75">
-                            <div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1 h-full bg-black"></div>
-                        </div>
-                        <div class="no-print flex items-center gap-1 text-[7px] uppercase font-black tracking-wider text-zinc-400 leading-none">
-                            <i data-lucide="scissors" class="w-3 h-3"></i>
-                            <span>Línea de corte / Etiqueta cuadrada 100x100mm</span>
-                        </div>
+                <!-- SECCIÓN 4: NOTAS / INSTRUCCIONES ESPECIALES (Full Width) -->
+                <div class="border-t-4 border-black p-2.5 bg-white h-[52px] shrink-0 flex items-center gap-2">
+                    <div class="flex items-center gap-1 shrink-0 bg-black text-white px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider">
+                        <i data-lucide="info" class="w-2.5 h-2.5"></i>
+                        <span>Inst</span>
+                    </div>
+                    <p class="text-[10.5px] font-extrabold leading-tight flex-grow break-words text-zinc-950 line-clamp-2" id="previewNotes">..............................................................................</p>
+                </div>
+
+                <!-- SECCIÓN 5: BARCODE / LÍNEA DE CORTE -->
+                <div class="border-t-2 border-dashed border-zinc-500 py-1 bg-white flex flex-col items-center justify-center gap-0.5 h-[45px] shrink-0">
+                    <div class="flex items-end h-4 gap-[1px] opacity-90">
+                        <div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div>
+                    </div>
+                    <div class="no-print flex items-center gap-1 text-[7px] uppercase font-black tracking-wider text-zinc-400 leading-none">
+                        <i data-lucide="scissors" class="w-2.5 h-2.5"></i>
+                        <span>Guía Cuadrada Alta Densidad - Fecha: <span id="footerDateDisplay">../../....</span></span>
                     </div>
                 </div>
             </div>
@@ -314,7 +401,7 @@
     </main>
 
     <!-- Notificación emergente de Copiado Compacto -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-black text-white border border-white px-4 py-2 rounded shadow-xl flex items-center gap-2 transform translate-y-16 opacity-0 transition duration-300 ease-in-out pointer-events-none no-print">
+    <div id="toast" class="fixed bottom-4 right-4 bg-black text-white border border-white px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-16 opacity-0 transition duration-300 ease-in-out pointer-events-none no-print">
         <div class="bg-white text-black p-0.5 font-bold rounded-sm">
             <i data-lucide="check" class="w-3.5 h-3.5"></i>
         </div>
@@ -334,6 +421,9 @@
             
             document.getElementById('inputDate').value = `${day}/${month}/${year}`;
 
+            // Autogenerar código de guía tracking inicial
+            regenerateTracking();
+
             // Iniciar iconos y construir vista previa en blanco
             lucide.createIcons();
             updatePreview();
@@ -349,6 +439,13 @@
         function switchToSvgFallbackPrint() {
             document.getElementById('printLogoPng').classList.add('hidden');
             document.getElementById('printLogoSvg').classList.remove('hidden');
+        }
+
+        // Generar un código de guía único de forma automática
+        function regenerateTracking() {
+            const randomId = Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('inputTracking').value = `PE-2026-${randomId}`;
+            updatePreview();
         }
 
         // Guardar la tarjeta de impresión como una imagen PNG de alta definición
@@ -401,10 +498,18 @@
             const year = date.getFullYear();
             
             document.getElementById('inputDate').value = `${day}/${month}/${year}`;
+            regenerateTracking();
+
             document.getElementById('inputDestName').value = '';
             document.getElementById('inputDestPhone').value = '';
             document.getElementById('inputDestCode').value = '';
             document.getElementById('inputDestAddress').value = '';
+            
+            document.getElementById('inputContent').value = '';
+            document.getElementById('inputPieces').value = '';
+            document.getElementById('inputServiceType').value = 'ESTÁNDAR';
+            document.getElementById('inputPayment').value = 'TRANSFERENCIA';
+
             document.getElementById('inputRemName').value = '';
             document.getElementById('inputRemPhone').value = '';
             
@@ -423,7 +528,6 @@
             updatePreview();
         }
 
-        // Función centralizada para actualizar la visualización de la plantilla
         function updatePreview() {
             // Mostrar u ocultar el logotipo del ticket
             const toggleLabelLogo = document.getElementById('toggleLabelLogo').checked;
@@ -436,8 +540,11 @@
 
             // Capturar valores ingresados o definir líneas punteadas de plantilla
             const dateVal = document.getElementById('inputDate').value.trim();
-            document.getElementById('dateDisplay').innerText = dateVal ? dateVal : '..........';
-            document.getElementById('dateDisplay').className = dateVal ? 'font-mono text-xs font-extrabold text-zinc-950' : 'dotted-line';
+            document.getElementById('footerDateDisplay').innerText = dateVal ? dateVal : '../../....';
+
+            const trackingVal = document.getElementById('inputTracking').value.trim();
+            document.getElementById('trackingDisplay').innerText = trackingVal ? trackingVal : '..........';
+            document.getElementById('trackingDisplay').className = trackingVal ? 'font-mono text-xs font-black text-zinc-950 uppercase' : 'dotted-line';
 
             // Destinatario - Letras Mas Grandes y Visibles
             const destName = document.getElementById('inputDestName').value.trim();
@@ -454,33 +561,50 @@
 
             const destAddress = document.getElementById('inputDestAddress').value.trim();
             document.getElementById('previewDestAddress').innerText = destAddress ? destAddress : '..............................................................................';
-            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-sm block leading-snug break-words text-zinc-950' : 'dotted-line break-words block';
+            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-xs block leading-tight break-words text-zinc-950' : 'dotted-line break-words block';
 
-            // Remitente - Sin límites para direcciones largas
+            // Detalles del Envío (Fills the space beautifully)
+            const contentVal = document.getElementById('inputContent').value.trim();
+            document.getElementById('previewContent').innerText = contentVal ? contentVal : '..........';
+            document.getElementById('previewContent').className = contentVal ? 'font-black text-zinc-950 uppercase block truncate' : 'dotted-line';
+
+            const piecesVal = document.getElementById('inputPieces').value.trim();
+            document.getElementById('previewPieces').innerText = piecesVal ? piecesVal : '..........';
+            document.getElementById('previewPieces').className = piecesVal ? 'font-black text-zinc-950 uppercase block truncate' : 'dotted-line';
+
+            const serviceVal = document.getElementById('inputServiceType').value;
+            document.getElementById('previewServiceType').innerText = serviceVal;
+            document.getElementById('previewServiceType').className = 'font-black text-zinc-950 uppercase block truncate';
+
+            const paymentVal = document.getElementById('inputPayment').value;
+            document.getElementById('previewPayment').innerText = paymentVal;
+            document.getElementById('previewPayment').className = 'font-black text-zinc-950 uppercase block truncate text-[9px]';
+
+            // Remitente - Formato Ultra Espacioso de Ancho Completo sin Truncar
             const remName = document.getElementById('inputRemName').value.trim();
             document.getElementById('previewRemName').innerText = remName ? remName : '..........';
-            document.getElementById('previewRemName').className = remName ? 'text-[8.5px] font-black uppercase text-zinc-950 break-words' : 'dotted-line';
+            document.getElementById('previewRemName').className = remName ? 'font-black text-xs uppercase text-zinc-950 block truncate leading-none' : 'dotted-line block leading-none';
 
             const remPhone = document.getElementById('inputRemPhone').value.trim();
             document.getElementById('previewRemPhone').innerText = remPhone ? remPhone : '..........';
-            document.getElementById('previewRemPhone').className = remPhone ? 'font-mono text-[8.5px] font-black text-zinc-950' : 'dotted-line';
+            document.getElementById('previewRemPhone').className = remPhone ? 'font-mono text-xs font-black text-zinc-950 block truncate leading-none' : 'dotted-line block leading-none';
 
             const remAddress = document.getElementById('inputRemAddress').value.trim();
             document.getElementById('previewRemAddress').innerText = remAddress ? remAddress : '..........';
-            document.getElementById('previewRemAddress').className = remAddress ? 'text-[8px] text-zinc-800 font-medium break-words leading-tight block' : 'dotted-line block';
+            document.getElementById('previewRemAddress').className = remAddress ? 'text-zinc-950 font-bold block text-[9.5px] break-words' : 'dotted-line block';
 
             const remRef = document.getElementById('inputRemRef').value.trim();
-            document.getElementById('previewRemRef').innerText = remRef ? remRef : '..........';
-            document.getElementById('previewRemRef').className = remRef ? 'text-[7.5px] font-black text-zinc-950 break-words leading-tight mt-0.5 block' : 'dotted-line block';
+            document.getElementById('previewRemRef').innerText = remRef ? (remRef.toUpperCase().startsWith('REF') ? remRef : `REF: ${remRef}`) : '..........';
+            document.getElementById('previewRemRef').className = remRef ? 'text-zinc-750 font-extrabold block text-[8px] break-words uppercase' : 'dotted-line block';
 
             // Datos Adicionales (COD y Notas)
             const codValue = document.getElementById('inputCod').value.trim();
             document.getElementById('codValue').innerText = codValue ? codValue : '..........';
-            document.getElementById('codValue').className = codValue ? 'text-base font-black font-mono text-zinc-950' : 'dotted-line text-sm';
+            document.getElementById('codValue').className = codValue ? 'text-xl font-black font-mono text-zinc-950' : 'dotted-line text-sm';
 
             const notesValue = document.getElementById('inputNotes').value.trim();
             document.getElementById('previewNotes').innerText = notesValue ? notesValue : '..............................................................................';
-            document.getElementById('previewNotes').className = notesValue ? 'text-xs font-bold leading-snug text-zinc-950' : 'dotted-line block';
+            document.getElementById('previewNotes').className = notesValue ? 'text-[10.5px] font-extrabold leading-tight text-zinc-950 line-clamp-2' : 'dotted-line block';
 
             // Sanitización de texto para evitar errores de bits
             function cleanText(text) {
@@ -518,8 +642,8 @@
                 try {
                     new QRCode(qrContainer, {
                         text: qrText,
-                        width: 55,
-                        height: 55,
+                        width: 85,
+                        height: 85,
                         colorDark : "#000000",
                         colorLight : "#ffffff",
                         correctLevel : QRCode.CorrectLevel.L // Almacenamiento optimizado ultra compacto
@@ -539,10 +663,17 @@
         // Copiar los datos del formulario de forma organizada a WhatsApp
         function copyToClipboard() {
             const dateVal = document.getElementById('inputDate').value.trim();
+            const trackingVal = document.getElementById('inputTracking').value.trim();
+            
             const destName = document.getElementById('inputDestName').value.trim();
             const destPhone = document.getElementById('inputDestPhone').value.trim();
             const destCode = document.getElementById('inputDestCode').value.trim();
             const destAddress = document.getElementById('inputDestAddress').value.trim();
+
+            const contentVal = document.getElementById('inputContent').value.trim();
+            const piecesVal = document.getElementById('inputPieces').value.trim();
+            const serviceVal = document.getElementById('inputServiceType').value;
+            const paymentVal = document.getElementById('inputPayment').value;
 
             const remName = document.getElementById('inputRemName').value.trim();
             const remPhone = document.getElementById('inputRemPhone').value.trim();
@@ -552,7 +683,10 @@
             const codValue = document.getElementById('inputCod').value.trim();
             const notesValue = document.getElementById('inputNotes').value.trim();
             
-            let message = `📦 *GUÍA DE ENVÍO* 📦\n`;
+            let message = `📦 *GUÍA DE ENVÍO - PUNTO ECONÓMICO* 📦\n`;
+            if (trackingVal) {
+                message += `🏷️ *Guía #:* ${trackingVal}\n`;
+            }
             if (dateVal) {
                 message += `📅 *Fecha:* ${dateVal}\n`;
             }
@@ -567,6 +701,12 @@
             if (destCode) {
                 message += `• *🔑 ACCESO GARITA:* Código *${destCode}*\n`;
             }
+
+            message += `\n📦 *DETALLES DEL PAQUETE:*\n`;
+            message += `• *Contenido:* ${contentVal || '---'}\n`;
+            message += `• *Bultos/Piezas:* ${piecesVal || '---'}\n`;
+            message += `• *Tipo de Envío:* ${serviceVal}\n`;
+            message += `• *Forma de Pago:* ${paymentVal}\n`;
             
             message += `\n🏬 *REMITENTE (Quién envía):*\n`;
             message += `• *Tienda/Nombre:* ${remName || '---'}\n`;
