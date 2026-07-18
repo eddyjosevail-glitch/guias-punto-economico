@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guías Punto Económico - Formato Vertical Alta Legibilidad</title>
+    <title>Guías Punto Económico - Formato Cuadrado Alta Legibilidad</title>
     <!-- Tailwind CSS para el diseño adaptativo -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Iconos Lucide para la interfaz de usuario -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- QRCodeJS para la generación del código QR sin depender de internet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Html2Canvas para permitir la descarga de la guía como imagen PNG de alta definición -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @media print {
             body {
@@ -23,13 +25,15 @@
                 border: 2px solid #000 !important;
                 box-shadow: none !important;
                 margin: 0 auto !important;
-                padding: 1.5rem !important;
-                max-width: 440px !important;
-                width: 440px !important;
-                height: auto !important;
+                padding: 1.25rem !important;
+                max-width: 480px !important;
+                width: 480px !important;
+                height: 480px !important; /* Fuerza dimensiones perfectamente cuadradas */
+                aspect-ratio: 1/1 !important;
                 border-radius: 0px !important;
                 display: flex !important;
                 flex-direction: column !important;
+                justify-content: space-between !important;
             }
         }
         /* Estilos de alto contraste en escala de grises con tipografía grande */
@@ -37,7 +41,7 @@
             color: #71717a;
             font-family: monospace;
             letter-spacing: 1px;
-            font-size: 15px;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -63,10 +67,14 @@
                 </div>
             </div>
             <!-- Acciones Rápidas Compactas -->
-            <div class="flex gap-2">
-                <button onclick="copyToClipboard()" class="flex items-center gap-1.5 bg-zinc-850 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm bg-zinc-800">
+            <div class="flex gap-2 flex-wrap justify-center">
+                <button onclick="copyToClipboard()" class="flex items-center gap-1.5 bg-zinc-800 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                     WhatsApp
+                </button>
+                <button onclick="saveAsImage()" class="flex items-center gap-1.5 bg-zinc-900 hover:bg-black text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
+                    <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                    Guardar Imagen
                 </button>
                 <button onclick="window.print()" class="flex items-center gap-1.5 bg-black hover:bg-zinc-900 text-white px-3 py-1.5 rounded text-xs font-bold transition shadow-sm">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
@@ -176,12 +184,12 @@
             </div>
         </section>
 
-        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Vertical Alta Legibilidad y Letras Grandes) -->
+        <!-- Vista Previa de la Plantilla Física (Derecha - Formato Cuadrado de Alta Legibilidad) -->
         <section class="lg:col-span-7 flex justify-center items-start">
-            <div class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[440px] w-full flex flex-col justify-between text-black relative shadow-md">
+            <div id="captureArea" class="print-card bg-white border-2 border-black rounded-none p-5 max-w-[480px] w-full aspect-square flex flex-col justify-between text-black relative shadow-md">
                 
                 <!-- Logotipo de la Marca en la Guía (Sin Pin de Ubicación) -->
-                <div id="printLogoContainer" class="border-b-2 border-black pb-3 mb-3">
+                <div id="printLogoContainer" class="border-b-2 border-black pb-2 mb-2">
                     <div class="flex items-center justify-between gap-2">
                         <div class="w-36 h-12 flex items-center justify-start bg-white shrink-0">
                             <img id="printLogoPng" src="punto eco.png" alt="Punto Económico Logo" class="w-full h-full object-contain" onerror="switchToSvgFallbackPrint()">
@@ -191,105 +199,112 @@
                             </svg>
                         </div>
                         <div class="text-right flex flex-col items-end leading-none">
-                            <span class="text-[10px] font-black uppercase border-2 border-black px-2.5 py-1 bg-black text-white mb-1.5 tracking-wider">GUÍA DE ENVÍO</span>
-                            <span class="text-xs font-mono font-bold uppercase tracking-wider text-zinc-800">
+                            <span class="text-[9px] font-black uppercase border-2 border-black px-2 py-0.5 bg-black text-white mb-1 tracking-wider">GUÍA DE ENVÍO</span>
+                            <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-800">
                                 Fecha: <span id="dateDisplay">..........</span>
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Datos de Destinatario (Letras Extra Grandes - Optimizadas para Mensajeros) -->
-                <div class="space-y-4 flex-grow">
-                    <div class="flex items-center gap-1 border-b border-black pb-1 mb-2.5">
-                        <i data-lucide="user" class="w-4 h-4 shrink-0"></i>
-                        <span class="text-[10px] font-black uppercase tracking-wider">Destinatario (Recibe)</span>
-                    </div>
+                <!-- Bloque de Información Cuadrado Dividido en Dos Columnas -->
+                <div class="grid grid-cols-12 gap-3 flex-grow my-1 items-stretch">
                     
-                    <div class="space-y-3.5">
-                        <div>
-                            <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Nombre Completo:</span>
-                            <h4 class="text-xl font-black uppercase leading-none text-zinc-950" id="previewDestName">........................................</h4>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-4 border-t border-zinc-300 pt-2.5">
-                            <div>
-                                <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Teléfono:</span>
-                                <span id="previewDestPhone" class="font-mono text-sm font-black text-zinc-950">......................</span>
+                    <!-- Columna Izquierda: Información del Destinatario (Ocupa 7 de 12) -->
+                    <div class="col-span-7 flex flex-col justify-between border-r border-black pr-2">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-1 border-b border-black pb-0.5">
+                                <i data-lucide="user" class="w-3.5 h-3.5 shrink-0"></i>
+                                <span class="text-[10px] font-black uppercase tracking-wider">Destinatario (Recibe)</span>
                             </div>
-                            <div>
-                                <span class="text-[10px] font-black uppercase text-zinc-500 block tracking-wide">Código Garita:</span>
-                                <span id="previewDestCode" class="font-mono text-sm font-black text-zinc-950">......................</span>
-                            </div>
-                        </div>
+                            
+                            <div class="space-y-2.5">
+                                <div>
+                                    <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Nombre Completo:</span>
+                                    <h4 class="text-xl font-black uppercase leading-tight text-zinc-950" id="previewDestName">........................................</h4>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-2 border-t border-zinc-200 pt-1.5">
+                                    <div>
+                                        <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Teléfono:</span>
+                                        <span id="previewDestPhone" class="font-mono text-sm font-black text-zinc-950">......................</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[9px] font-black uppercase text-zinc-500 block leading-none mb-1">Garita:</span>
+                                        <span id="previewDestCode" class="font-mono text-sm font-black text-zinc-950">......................</span>
+                                    </div>
+                                </div>
 
-                        <div class="border-t border-zinc-300 pt-2.5">
-                            <span class="font-black text-[10px] uppercase block text-zinc-500 tracking-wide">Dirección de Entrega:</span>
-                            <span id="previewDestAddress" class="font-bold text-sm block leading-relaxed break-words text-zinc-950">..............................................................................</span>
+                                <div class="border-t border-zinc-200 pt-1.5">
+                                    <span class="font-black text-[9px] uppercase block text-zinc-500 leading-none mb-1">Dirección de Entrega:</span>
+                                    <span id="previewDestAddress" class="font-bold text-sm block leading-snug break-words text-zinc-950">..............................................................................</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Datos del Remitente (Compactados y Claros) -->
-                    <div class="border-t border-black pt-3 mt-4">
-                        <div class="flex items-center gap-1 border-b border-black pb-1 mb-2">
-                            <i data-lucide="store" class="w-3.5 h-3.5 shrink-0"></i>
-                            <span class="text-[10px] font-black uppercase tracking-wider">Remitente (Quién Envía)</span>
+                    <!-- Columna Derecha: Remitente, QR y COD (Ocupa 5 de 12) -->
+                    <div class="col-span-5 flex flex-col justify-between pl-1">
+                        
+                        <!-- Mini Bloque de Código QR y COD -->
+                        <div class="grid grid-cols-2 gap-2 items-center">
+                            <!-- Pago Contra Entrega (COD) -->
+                            <div id="codContainer" class="border border-black bg-zinc-50 p-1 flex flex-col justify-center items-center h-[65px]">
+                                <span class="text-[7px] font-black text-center leading-none block mb-1">Monto COD:</span>
+                                <span class="text-xs font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
+                            </div>
+
+                            <!-- Código QR Compacto para Llamadas Directas -->
+                            <div class="flex flex-col items-center justify-center border border-zinc-200 p-0.5 bg-white shrink-0">
+                                <div id="qrcode" class="flex items-center justify-center w-[55px] h-[55px]">
+                                    <div id="qrPlaceholder" class="text-[7px] font-black text-center text-zinc-400 border border-dashed border-zinc-300 w-[50px] h-[50px] flex items-center justify-center leading-none">QR</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-zinc-50 border border-zinc-300 p-2.5 rounded space-y-1 text-[11px] leading-snug">
-                            <div class="flex justify-between border-b border-zinc-200 pb-1">
-                                <div>
+                        <span id="qrLabel" class="hidden text-[6px] font-mono font-black tracking-tight uppercase text-center leading-none mt-1">SCAN NOMBRE</span>
+
+                        <!-- Datos del Remitente Compactados -->
+                        <div class="border border-black p-1.5 mt-2 bg-zinc-50 rounded-sm">
+                            <div class="flex items-center gap-0.5 border-b border-black pb-0.5 mb-1">
+                                <i data-lucide="store" class="w-2.5 h-2.5 shrink-0"></i>
+                                <span class="text-[8px] font-black uppercase tracking-wider">Remitente (Envía)</span>
+                            </div>
+                            <div class="space-y-0.5 text-[8.5px] leading-none">
+                                <div class="flex justify-between">
                                     <span class="font-bold text-zinc-500">Envía:</span>
-                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 ml-1">..........</span>
+                                    <span id="previewRemName" class="font-black uppercase text-zinc-950 truncate max-w-[70px]">..........</span>
                                 </div>
-                                <div>
+                                <div class="flex justify-between mt-0.5">
                                     <span class="font-bold text-zinc-500">Cel:</span>
-                                    <span id="previewRemPhone" class="font-mono font-black text-zinc-950 ml-1">..........</span>
+                                    <span id="previewRemPhone" class="font-mono font-black text-zinc-950">..........</span>
+                                </div>
+                                <div class="pt-1 border-t border-zinc-200 mt-1">
+                                    <span class="font-bold text-zinc-500 block mb-0.5">Origen / Refs:</span>
+                                    <span id="previewRemAddress" class="block text-[8px] text-zinc-800 font-medium truncate max-w-[110px]">..........</span>
+                                    <span id="previewRemRef" class="block text-[7.5px] font-black text-zinc-950 truncate max-w-[110px]">..........</span>
                                 </div>
                             </div>
-                            <div class="pt-1">
-                                <span class="font-bold text-zinc-500 block">Dirección de Origen / Referencias:</span>
-                                <span id="previewRemAddress" class="block text-[11px] text-zinc-800 font-medium">..........</span>
-                                <span id="previewRemRef" class="block text-[10px] font-black text-zinc-950">..........</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque de Código QR, COD e Instrucciones Especiales -->
-                    <div class="grid grid-cols-12 gap-3 border-t border-black pt-3 mt-4">
-                        
-                        <!-- Columna Izquierda: Instrucciones & Monto COD (Ocupa 8 de 12 columnas) -->
-                        <div class="col-span-8 flex flex-col justify-between space-y-2">
-                            <!-- Pago Contra Entrega (COD) - Letra de alta visibilidad -->
-                            <div id="codContainer" class="border border-black bg-zinc-50 p-2 flex flex-col justify-center items-center h-[58px]">
-                                <span class="text-[9px] font-black text-center leading-none block mb-1 tracking-wider">PAGO CONTRA ENTREGA (COD):</span>
-                                <span class="text-base font-black font-mono leading-none text-zinc-950" id="codValue">..........</span>
-                            </div>
-
-                            <!-- Instrucciones Especiales - Tipografía más amplia -->
-                            <div class="border border-black p-2 bg-zinc-50 flex items-start gap-1.5 h-auto min-h-[50px]" id="previewNotesContainer">
-                                <span class="font-black text-[9px] uppercase tracking-wider block text-zinc-500 shrink-0 mt-0.5">Inst:</span>
-                                <p class="text-xs font-bold leading-snug flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
-                            </div>
-                        </div>
-
-                        <!-- Columna Derecha: Código QR Oficial (Ocupa 4 de 12 columnas) -->
-                        <div class="col-span-4 flex flex-col items-center justify-center border border-zinc-200 p-1 bg-white shrink-0">
-                            <div id="qrcode" class="flex items-center justify-center w-[85px] h-[85px]">
-                                <div id="qrPlaceholder" class="text-[9px] font-black text-center text-zinc-400 border border-dashed border-zinc-300 w-[78px] h-[78px] flex items-center justify-center leading-none">QR</div>
-                            </div>
-                            <span id="qrLabel" class="hidden text-[6px] font-mono font-black tracking-tight uppercase mt-1 text-center leading-none">SCAN NOMBRE</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección de Corte Física (Pie de Página) -->
-                <div class="border-t-2 border-dashed border-black mt-5 pt-3 flex flex-col items-center justify-center gap-1.5">
-                    <div class="flex items-end h-3 gap-[1px] mb-0.5 opacity-90">
-                        <div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div>
+                <!-- Sección Inferior de Notas y Corte -->
+                <div class="border-t-2 border-black pt-2 mt-1">
+                    <!-- Instrucciones Especiales - Tipografía Amplia -->
+                    <div class="border border-black p-1.5 bg-zinc-50 flex items-center gap-2" id="previewNotesContainer">
+                        <span class="font-black text-[8px] uppercase tracking-wider block text-zinc-500 shrink-0">Inst:</span>
+                        <p class="text-[10px] font-bold leading-tight flex-grow break-words text-zinc-950" id="previewNotes">..............................................................................</p>
                     </div>
-                    <div class="no-print flex items-center gap-1 text-[8px] uppercase font-black tracking-wider text-zinc-400 leading-none">
-                        <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
-                        <span>Línea de corte / Ticket de mensajería</span>
+
+                    <!-- Código de Barras / Corte Simulado -->
+                    <div class="border-t border-dashed border-black mt-2 pt-2 flex flex-col items-center justify-center gap-1">
+                        <div class="flex items-end h-2 gap-[1px] opacity-75">
+                            <div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1 h-full bg-black"></div>
+                        </div>
+                        <div class="no-print flex items-center gap-1 text-[7px] uppercase font-black tracking-wider text-zinc-400 leading-none">
+                            <i data-lucide="scissors" class="w-3 h-3"></i>
+                            <span>Línea de corte / Etiqueta cuadrada 100x100mm</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -332,6 +347,28 @@
             document.getElementById('printLogoSvg').classList.remove('hidden');
         }
 
+        // Guardar la tarjeta de impresión como una imagen PNG de alta definición
+        function saveAsImage() {
+            const element = document.getElementById('captureArea');
+            const destName = document.getElementById('inputDestName').value.trim() || 'Guia_Punto_Economico';
+            const fileName = `Guia_${destName.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+
+            // Configuración óptima de html2canvas para renderizar texto e iconos SVG correctamente
+            html2canvas(element, {
+                scale: 3, // Multiplica la resolución por 3 para dar calidad térmica ultra nítida
+                useCORS: true,
+                backgroundColor: "#ffffff",
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                console.error("Error generando la imagen de la guía:", err);
+            });
+        }
+
         // Vaciar todos los campos del panel y restablecer plantilla
         function clearAllFields() {
             const date = new Date();
@@ -369,10 +406,10 @@
             document.getElementById('dateDisplay').innerText = dateVal ? dateVal : '..........';
             document.getElementById('dateDisplay').className = dateVal ? 'font-mono text-xs font-extrabold text-zinc-950' : 'dotted-line';
 
-            // Destinatario
+            // Destinatario - Letras Mas Grandes y Visibles
             const destName = document.getElementById('inputDestName').value.trim();
             document.getElementById('previewDestName').innerText = destName ? destName : '........................................';
-            document.getElementById('previewDestName').className = destName ? 'text-xl font-black uppercase leading-none text-zinc-950' : 'dotted-line';
+            document.getElementById('previewDestName').className = destName ? 'text-xl font-black uppercase leading-tight text-zinc-950' : 'dotted-line';
 
             const destPhone = document.getElementById('inputDestPhone').value.trim();
             document.getElementById('previewDestPhone').innerText = destPhone ? destPhone : '......................';
@@ -384,7 +421,7 @@
 
             const destAddress = document.getElementById('inputDestAddress').value.trim();
             document.getElementById('previewDestAddress').innerText = destAddress ? destAddress : '..............................................................................';
-            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-sm block leading-relaxed break-words text-zinc-950' : 'dotted-line break-words block';
+            document.getElementById('previewDestAddress').className = destAddress ? 'font-bold text-sm block leading-snug break-words text-zinc-950' : 'dotted-line break-words block';
 
             // Remitente
             const remName = document.getElementById('inputRemName').value.trim();
@@ -448,8 +485,8 @@
                 try {
                     new QRCode(qrContainer, {
                         text: qrText,
-                        width: 85,
-                        height: 85,
+                        width: 55,
+                        height: 55,
                         colorDark : "#000000",
                         colorLight : "#ffffff",
                         correctLevel : QRCode.CorrectLevel.L // Almacenamiento optimizado ultra compacto
